@@ -1,0 +1,97 @@
+{% extends 'base.html' %}
+{% block content %}
+<h1 style="padding-left: 5%;">Product: <strong>{{ values.name.value }}</strong></h1>
+<div style="display: flex;
+            justify-content: left;
+            padding-left: 5%;
+            align-items: center;">
+    <form method="post">
+    <div class="card shadow rounded"
+        style="width: 1200px;
+                height: 320px;">
+           
+                {% csrf_token %}
+                <div class="flex-row" style="padding-left: 20px;">
+
+                    <div style="float:left; width: 50%; padding: 10px;">
+                        <br>
+                        <div style="float:left; width:50%">
+                            <div class="row" style="width:200px;">
+                            
+                            Name: {{ values.name }}
+                            <br>
+                            Description: {{ values.description }}
+                            <br>
+                            Type: {{ values.prod_type}}
+                            </div>
+
+                        </div>
+
+                        <div style="float:left; width:50%">
+                            <div class="row" style="width:200px">
+                                Quantity: {{values.quantity}}
+                                <br>
+                                Reserved Qty: {{values.reserved_quantity}}
+                                <br>
+                                Available Qty: {{values.available_quantity}}
+                            </div>
+                        </div>
+
+                    </div>
+
+                    <div style="float:right; width: 50%; padding: 10px;">
+                        <br>
+                        <div style="float:left;
+                                width: 50%;
+                                padding-left: 10px;">
+                            <div class="row" style="width:200px;">
+                                Length: {{ values.length }}
+                                Width: {{ values.width }}
+                                Height: {{ values.height }}
+                            </div>
+                        </div>
+
+                        <div style="float:right;
+                                width: 50%;">
+
+                            <div class="row" style="width:200px;">
+                                Weight: {{ values.weight }}
+                                Volume: {{ values.volume }}
+                                Suppliers: {{ values.supplier_ids}}
+                            </div>
+                        </div>
+                        
+                        
+                        
+                    </div>
+                    
+                </div>
+                <div style="display: flex; justify-content: flex-end; padding-top: 20px;">
+                    <input type="submit" 
+                        value="Save"
+                        style="background-color: #7ba1bd;
+                            color:white;
+                            border-radius: 5px;
+                            box-shadow: 0px 4px 6px rgba(189, 189, 189, 0.816);
+                            border: 0px;
+                            width: 75px;">
+                </div>
+                
+    </div>
+    </form> 
+
+
+
+    <!-- DEBUGGING IF FORM FAILS -->
+    <!-- {% if values.errors %}
+        <ul>
+        {% for field, errors in values.errors.items %}
+            {% for error in errors %}
+                <li>{{ field }}: {{ error }}</li>
+            {% endfor %}
+        {% endfor %}
+        </ul>
+    {% endif %} -->
+
+</div>
+{% endblock content %}

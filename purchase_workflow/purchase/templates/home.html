@@ -1,0 +1,24 @@
+{% extends 'base.html' %}
+{% block content %}
+    <table class="table">
+        <thead>
+            <tr>
+                <th scope="col">ID</th>
+                <th scope="col">Order</th>
+                <th scope="col">Order Date</th>
+                <th scope="col">Delivery date</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for purchase_order in values.pos %}
+                <tr>
+                    <th scope="row">{{ purchase_order.id}}</th>
+                    <td>{{ purchase_order.order_name }}</td>
+                    <td>{{ purchase_order.order_date }}</td>
+                    <td>{{ purchase_order.delivery_date }}</td>
+                </tr>
+            {% endfor %}
+
+        </tbody>
+    </table>
+{% endblock content %}

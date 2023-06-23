@@ -1,0 +1,39 @@
+{% extends 'base.html' %}
+{% block content %}
+<table class="table view_shift" id="list_view" style="display: none;">
+    <thead>
+      <tr>
+        <th scope="col">ID</th>
+        <th scope="col">Name</th>
+        <th scope="col">Email</th>
+      </tr>
+    </thead>
+    <tbody>
+        {% for user in values.users %}
+            <tr class="highlight" data-url="{% url 'users_form' user.id %}">
+                <th scope="row">{{ user.id}}</th>
+                <td>{{ user.username }}</td>
+                <td>{{ user.email }}</td>
+            </tr>
+        {% endfor %}
+
+    </tbody>
+  </table>    
+
+
+<div class="row" id="kanban_view">
+    {% for user in values.users %}
+        <div class="col-3 grow card rounded shadow"
+             data-url="{% url 'users_form' user.id %}"
+             style="width: 325px; 
+                    margin-left: 30px;
+                    margin-top: 30px;">
+            <h4>{{ user.username }}</h4>
+            <p>Email: {{ user.email }}</p>
+        </div>
+    {% endfor %}
+
+    
+</div>
+
+{% endblock content%}

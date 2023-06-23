@@ -1,0 +1,28 @@
+{% extends 'base.html' %}
+{% block content %}
+<h1 style="padding-left: 5%;">User: {{ values.username.value }}</h1>
+<div style="display: flex;
+            justify-content: left;
+            padding-left: 5%;
+            align-items: center;">
+    
+    <div class="card shadow rounded"
+        style="width: 700px;
+                height: 430px;">
+                <br>
+            <form method="post" style="padding-left: 10px;">
+                {% csrf_token %}
+                {{ values.as_p }}
+                {{ values.email.as_p }}
+                <input type="submit" 
+                       value="Save"
+                       style="background-color: #7ba1bd;
+                          color:white;
+                          border-radius: 5px;
+                          box-shadow: 0px 4px 6px rgba(189, 189, 189, 0.816);
+                          border: 0px;
+                          width: 75px;">
+            </form>
+    </div>
+</div>
+{% endblock content %}

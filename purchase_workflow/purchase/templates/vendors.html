@@ -1,0 +1,53 @@
+{% extends 'base.html' %}
+{% block content %}
+    
+    <table class="table view_shift" id="list_view">
+        <thead>
+          <tr>
+            <th scope="col">ID</th>
+            <th scope="col">Name</th>
+          </tr>
+        </thead>
+        <tbody>
+            {% for vendor in values.vendors %}
+                <tr class="highlight" data-url="{% url 'vendors_form' vendor.id %}">
+                    <th scope="row">{{ vendor.id}}</th>
+                    <td>{{ vendor.name }}</td>
+                </tr>
+            {% endfor %}
+
+        </tbody>
+      </table>
+
+      <div class="view_shift" id="kanban_view" style="display: none;">
+        <div class="row">
+          {% for vendor in values.vendors %}
+              <div class="col-3 grow card rounded shadow"
+                   data-url="{% url 'vendors_form' vendor.id %}"
+                   style="width: 325px; 
+                          margin-left: 30px;
+                          margin-top: 30px;">
+                  <strong><p>{{ vendor.name }}</p></strong>
+                  <p>Email: {{ vendor.email }}</p>
+              </div>
+          {% endfor %}
+  
+          <!-- <div class="pagination">
+              <span class="step-links">
+                  {% if values.pages.has_previous %}
+                      <a href="?page={{ values.pages.previous_page_number }}">previous</a>
+                  {% endif %}
+          
+                  <span class="current">
+                      Page {{ values.pages.number }} of {{ values.pages.paginator.num_pages }}.
+                  </span>
+          
+                  {% if values.pages.has_next %}
+                      <a href="?page={{ values.pages.next_page_number }}">next</a>
+                  {% endif %}
+              </span>
+          </div> -->
+        </div>
+      </div>
+
+{% endblock content %}

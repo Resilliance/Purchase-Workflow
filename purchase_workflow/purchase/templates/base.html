@@ -1,0 +1,203 @@
+
+{% load static %}
+<!DOCTYPE html>
+<html>
+    <head>
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-9ndCyUaIbzAi2FUVXJi0CjmCapSmO7SnpJef0486qhLnuZ2cdeRhO02iuK6FUUVM" crossorigin="anonymous">
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js" integrity="sha384-geWF76RCwLtnZ8qwWowPQNguL3RmwHVBC9FhGdlKrxdiJJigb/j/68SIy3Te4Bkz" crossorigin="anonymous"></script>
+        <link href='https://fonts.googleapis.com/css?family=Raleway' rel='stylesheet'>
+        <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.2/css/all.css" integrity="sha384-oS3vJWv+0UjzBfQzYUhtDYW+Pj2yciDJxpsK1OYPAYjqT085Qq/1cq5FLXAZQ7Ay" crossorigin="anonymous">
+
+        <style>
+            body {
+                font-family: 'Raleway';
+            }
+            .grow { transition: all .2s ease-in-out; }
+            .grow:hover { transform: scale(1.1); }
+
+            .highlight { transition: all .2s ease-in-out; }
+            .highlight:hover {
+                background-color: #d1c0c0;
+            }
+
+            .view_shift { transition: opacity 0.3s ease;}            
+        </style>
+        <!-- Start of NavBar -->
+        <nav class="navbar navbar-expand-lg bg-body-tertiary" style="background-color:rgb(63, 179, 192);">
+            <div class="container-fluid">
+              <a class="navbar-brand" href="{% url 'home' %}">Purchase</a>
+              <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+              </button>
+              <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                  <li class="nav-item">
+                    <a class="nav-link active" aria-current="page" href="{% url 'home' %}">Orders</a>
+                  </li>
+                  <li class="nav-item">
+                    <a class="nav-link active" href="{% url 'vendors' %}">Vendors</a>
+                  </li>
+                  <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle active" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                      Products
+                    </a>
+                    <ul class="dropdown-menu">
+                      <li><a class="dropdown-item" href="{% url 'products' %}">Products</a></li>
+                      <li><a class="dropdown-item" href="#">Variants</a></li>
+                    </ul>
+                  </li>
+                  <li class="nav-item">
+                    <a class="nav-link active" href="{% url 'users' %}">Users</a>
+                  </li>
+                </ul>
+              </div>
+            </div>
+          </nav>
+          <!-- End of NavBar -->
+
+    </head>
+</html>
+
+<body>
+    <br>
+    <div class="container-fluid" > 
+        <div class="row">
+            <div class="col">
+                {% if values.path == "/" %}
+                    <a id="create_button"
+                        href="{% url 'home' %}"
+                        type="button"
+                        class="btn shadow rounded" 
+                        style="background-color: #A0C49D;
+                        color: white;">Create</a>
+                    
+                {% elif values.path == "/vendors" %}
+                    <a id="create_button"
+                        href="{% url 'vendors_form_create' %}"
+                        type="button"
+                        class="btn shadow rounded" 
+                        style="background-color: #A0C49D;
+                        color: white;">Create</a>
+                {% elif values.path == "/products" %}
+                    <a id="create_button"
+                        href="{% url 'products_form_create' %}"
+                        type="button"
+                        class="btn shadow rounded" 
+                        style="background-color: #A0C49D;
+                        color: white;">Create</a>
+                {% elif values.path == "/users" %}
+                    <a id="create_button"
+                        href="{% url 'users_form_create' %}"
+                        type="button"
+                        class="btn shadow rounded" 
+                        style="background-color: #A0C49D;
+                        color: white;">Create</a>
+                {% endif %}
+                    
+
+            </div>
+            <div class="col-4">
+                <form class="d-flex" role="search">
+                    <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
+                    <button class="btn btn-outline-success" type="submit">Search</button>
+                </form>
+            </div>
+        </div>
+    </div>
+    <br>
+    <div class="flex-row" style="display: flex; justify-content: space-between; align-items: center;">
+      <div style="justify-content: left; margin-left: 1%; width: 50%;">
+        {% if values.path == "/" %}
+        <h1 style="margin-left: 1%;">Purchase Orders</h1>
+        {% elif values.path == "/vendors" %}
+        <h1 style="margin-left: 1%;">Vendors</h1>
+        {% elif values.path == "/products" %}
+        <h1 style="margin-left: 1%;">Products</h1>
+        {% elif values.path == "/users" %}
+        <h1 style="margin-left: 1%;">Users</h1>
+        {% endif %}
+      </div>
+  
+      <div style="justify-content: end; margin-right: 1%; width: 50%;">
+        <div style="display: flex; justify-content: flex-end;">
+          <div class="btn-group" role="group" style="margin-right: 3%; width: 100px;">
+            <button id="show_list_view_button" class="btn btn-secondary">
+              <i class="fas fa-list"></i>
+            </button>
+            <button id="show_kanban_view_button" class="btn btn-secondary">
+              <i class="fas fa-th-large"></i>
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+    
+    
+    <hr>
+    
+    <script>
+      window.onload = function() {
+        var list_view = document.getElementById('list_view');
+        var list_button = document.getElementById('show_list_view_button');
+        var kanban_view = document.getElementById('kanban_view');
+        var kanban_button = document.getElementById('show_kanban_view_button');
+        
+        if (!list_view) {
+            list_button.style.display = 'none';
+        }
+        
+        if (!kanban_view) {
+            kanban_button.style.display = 'none';
+        }
+        
+        list_button.addEventListener('click', function() {
+            if (list_view && kanban_view) {
+                list_view.style.display = '';
+                kanban_view.style.display = 'none';
+            }
+        });
+        
+        kanban_button.addEventListener('click', function() {
+            if (list_view && kanban_view) {
+                list_view.style.display = 'none';
+                kanban_view.style.display = '';
+            }
+        });
+    };
+
+
+    </script>
+
+{% block content %}
+<!-- This is where the pages go -->
+{% endblock content %}
+<script>
+  var rows = document.querySelectorAll('.highlight, .grow');
+
+  for(var i = 0; i < rows.length; i++) {
+      rows[i].addEventListener('click', function() {
+          window.location = this.dataset.url;
+      });
+  }
+</script>
+<!-- Modals -->
+<!-- <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h1 class="modal-title fs-5" id="exampleModalLabel">Modal title</h1>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          ...
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+          <button type="button" class="btn btn-primary">Save changes</button>
+        </div>
+      </div>
+    </div>
+</div> -->
+
+</body>
+

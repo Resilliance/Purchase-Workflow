@@ -1,0 +1,58 @@
+{% extends 'base.html' %}
+{% block content %}
+    <div class="flex-row">
+        <div class="pagination" style="justify-content: end; padding-right: 20px;">
+            <span class="step-links">
+                {% if values.pages.has_previous %}
+                    <a href="?page={{ values.pages.previous_page_number }}">previous</a>
+                {% endif %}
+        
+                <span class="current">
+                    Page {{ values.pages.number }} of {{ values.pages.paginator.num_pages }}
+                </span>
+        
+                {% if values.pages.has_next %}
+                    <a href="?page={{ values.pages.next_page_number }}">next</a>
+                {% endif %}
+            </span>
+        </div>
+    </div>
+    
+    <table class="table view_shift" id="list_view" style="display: none;">
+        <thead>
+          <tr>
+            <th scope="col">ID</th>
+            <th scope="col">Name</th>
+            <th scope="col">Description</th>
+          </tr>
+        </thead>
+        <tbody>
+            {% for product in values.products %}
+                <tr class="highlight" data-url="{% url 'products_form' product.id %}">
+                    <th scope="row">{{ product.id}}</th>
+                    <td>{{ product.name }}</td>
+                    <td>{{ product.description }}</td>
+                </tr>
+            {% endfor %}
+
+        </tbody>
+      </table>    
+
+
+    <div class="row" id="kanban_view">
+        {% for product in values.pages %}
+            <div class="col-3 grow card rounded shadow"
+                 data-url="{% url 'products_form' product.id %}"
+                 style="width: 325px; 
+                        margin-left: 30px;
+                        margin-top: 30px;">
+                <h4>{{ product.name }}</h4>
+                <p>Type: {{ product.get_prod_type_display }}</p>
+                <p>Quantity: {{ product.quantity }}</p>
+                <p>Available: {{ product.available_quantity }}</p>
+            </div>
+        {% endfor %}
+
+        
+    </div>
+{% endblock content %}
