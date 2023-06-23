@@ -10,8 +10,13 @@ source pwvenv/bin/activate
 cd purchase_workflow
 ```
 ```
+python3 manage.py migrate
+```
+- This is cause I'm not including my db.sqlite3 file, but this will create a new one for you!
+```
 python3 manage.py runserver
 ```
+
 
 6-23-23:
 - Completely forgot to push the initial commit, so here we are with a giant first commit
